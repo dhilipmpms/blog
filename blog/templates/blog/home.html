@@ -1,0 +1,24 @@
+{% for post in posts %}
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.content|linebreaks }}</p>
+  <div>{{ post.content_html|safe }}</div>
+
+  <p>By {{ post.author }} on {{ post.created_at }}</p>
+  {% if post.author == user %}
+    <a href="{% url 'update_post' post.pk %}">Edit</a> |
+    <a href="{% url 'delete_post' post.pk %}">Delete</a>
+  {% endif %}
+  {% if post.image %}
+  <img src="{{ post.image.url }}" width="300px">
+{% endif %}
+<a href="{% url 'like_post' post.pk %}">
+  {% if user in post.likes.all %}
+    💔 Unlike
+  {% else %}
+    ❤️ Like
+  {% endif %}
+</a> ({{ post.total_likes }})
+
+  <hr>
+{% endfor %}
+<a href="{% url 'create_post' %}">Create New Post</a>
