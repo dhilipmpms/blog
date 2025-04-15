@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 import markdown2
 
+
+@login_required
 def home(request):
     posts = Post.objects.all().order_by('-created_at')
     for post in posts:
